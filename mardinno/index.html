@@ -9,6 +9,7 @@
 
 function doSearch () {
 	var qlimit = document.getElementById('limit').value;
+	var search = document.getElementById('search').value;
 	var e = document.getElementById("sort");
 	var sort = e.options[e.selectedIndex].value;
 	var f = document.getElementById("orderby");
@@ -37,7 +38,11 @@ function doSearch () {
 
 	for (let video of response.data.videos) {
 
-	newTable += "<tr><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td>" + video.name + "</td></tr>";
+		if (search == '' || video.name.search(search) !== -1) {
+		
+		newTable += "<tr><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td>" + video.name + "</td></tr>";
+
+		}
 
 	}
 
@@ -65,7 +70,7 @@ Order By :
   <option value="asc">Asc</option>
 </select>
 
-Limit : <input type="text" name="limit" id="limit" value="42" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" />
+Limit : <input type="text" name="limit" id="limit" value="42" /> Search : <input type="text" name="search" id="search" value="" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" />
 
 <table id="mytable"><tr><td>ID</td><td>Release date</td><td>Duration</td><td>Title</td></tr></table>
 
