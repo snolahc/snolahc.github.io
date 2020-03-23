@@ -38,7 +38,7 @@ function doSearch () {
 
 	for (let video of response.data.videos) {
 
-		if (search == '' || video.name.search(search) !== -1) {
+		if (search == '' || video.name.toUpperCase().search(search.toUpperCase()) !== -1) {
 		
 		newTable += "<tr><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td><a target=\"_blank\" href=\"" + video.link + "\">GO</a></td><td>" + video.name + "</td></tr>";
 
