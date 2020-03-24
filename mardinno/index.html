@@ -1,45 +1,31 @@
-<HTML>
-	<HEAD>
+<HTML><HEAD>
+
+<TITLE>Mardinno DB</TITLE>
+	
 <style>
-tr:hover {
-	  background-color: lightyellow;
-}
+	tr:hover {
+		  background-color: lightyellow;
+	}
 
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-
 <script>
 
-//unlisted
-//password
-//nobody
-//disable
-//anybody
-
 function isPrivacyOK(vidp) {
-let isok = false;
 	if (document.getElementById("cb_public").checked && vidp == "anybody") {
-		isok = true;
+		return true;
 	}
 	if (document.getElementById("cb_private").checked && (
 		vidp == "unlisted" ||
 		vidp == "password" ||
 		vidp == "nobody" ||
 		vidp == "disable")) {
-		isok = true;
+		return true;
 	}
-	return isok;
+	return false;
 }
-
-/*		if (	(search == '' 
-			|| video.name.toUpperCase().search(search.toUpperCase()) !== -1
-			|| (document.getElementById('search_in_desc').checked
-				&& video.description != null
-				&& video.description.toString().toUpperCase().search(search.toUpperCase()) !== -1)
-		) &&	(isPrivacyOK(video.view))	
-		 )*/
 
 function wclean(word) {
 	let rt = word.toUpperCase(); 
@@ -80,6 +66,10 @@ function doSearch () {
 	document.getElementById('div_loading').style.display = 'block';
 	document.getElementById('div_results').style.display = 'none';
 
+	let get_desc = false;
+	if (document.getElementById('search_in_desc').checked) {
+		get_desc = true;
+	}
 
 	var settings = {
 	  "async": true,
@@ -91,27 +81,27 @@ function doSearch () {
 	    "cache-control": "no-cache"
 	  },
 	  "processData": false,
-	  "data": "{\"query\":\"{ videos(order_by: {" + orderby + ": " + sort + "}, limit: " + qlimit + ") { name, id, duration, release_time, link, view, plays, description } }\" }"
+	  "data": "{\"query\":\"{ videos(order_by: {" + orderby + ": " + sort + "}, limit: " + qlimit + ") { name, id, duration, release_time, link, view, plays" + (get_desc ? ", description" : "") + " } }\" }"
 	}
 
 	$.ajax(settings).done(function (response) {
 
-	let newTable = "<tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr>";
+	let newTable = "<tr style=\"background-color: lightblue;\"><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr>";
 	let mycount = 0;
 
 	for (let video of response.data.videos) {
 		if (video.description == null) {
 			video.description = "";
 		}
-		if (searchWord(search, video.name + ((document.getElementById('search_in_desc').checked) ? video.description.toString() : "" )) && isPrivacyOK(video.view))
+		if (searchWord(search, video.name + (get_desc ? video.description.toString() : "" )) && isPrivacyOK(video.view))
 		{
-			newTable += "<tr><td>" + video.view + "</td><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td><a target=\"_blank\" href=\"" + video.link + "\">GO</a></td><td>" + video.plays + "</td><td>" + video.name + "</td></tr>";
+			newTable += "<tr><td>" + video.view + "</td><td>" + video.id + "</td><td>" + video.release_time.replace("T", " ").substring(0, video.release_time.indexOf("+")) + "</td><td>" + video.duration + "</td><td><a target=\"_blank\" href=\"" + video.link + "\">GO</a></td><td>" + video.plays + "</td><td>" + video.name + "</td></tr>";
 
 			mycount++;
 		}
 	}
 
-	document.getElementById("count").value = mycount;
+	document.getElementById("count").innerHTML = mycount;
 	Table.innerHTML = newTable;
 	document.getElementById('div_loading').style.display = 'none';
 	document.getElementById('div_results').style.display = 'block';
@@ -119,9 +109,9 @@ function doSearch () {
 }
 </script>
 	
-	</HEAD>
-	<BODY>
-		<div id="div_search">
+</HEAD><BODY>
+	<h2>MARDIS DE L'INNOVATION</h2>
+<div id="div_search">
 Order By : 
 <select id="orderby">
   <option value="created_time">Created time</option>
@@ -141,23 +131,24 @@ Limit : <input type="text" name="limit" id="limit" value="42000" />
 		Search : <label><input type="text" name="search" id="search" value="" />&nbsp;&nbsp;Search in description</label> <input type="checkbox" id="search_in_desc" name="search_in_desc" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" /> <br />
 		</div>
 		<div id="div_results">
-			<br /><br />Count : <input type="text" disabled id="count" name="count" value="" /><br />
+			<br /><br />&nbsp;<span id="count"></span> videos found.<br />
 
-<table id="mytable"><tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr></table>
+<table id="mytable"></table>
 		</div>
 		<div id="div_loading">
-			<img src="loading.gif" />
+			<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;<img src="loading.gif" />
 		</div>
-	<script>
-		doSearch();
+<script>
 
-		var input = document.getElementById("search");
-		input.addEventListener("keyup", function(event) {
-	  		if (event.keyCode === 13) {
-		     		event.preventDefault();
-		     		document.getElementById("searchbtn").click();
-			}
-		});
-	</script>
-	</BODY>
-</HTML>
+doSearch();
+
+var input = document.getElementById("search");
+input.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) {
+		event.preventDefault();
+		document.getElementById("searchbtn").click();
+	}
+});
+
+</script>
+</BODY></HTML>
