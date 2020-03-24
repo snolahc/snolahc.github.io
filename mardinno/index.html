@@ -14,7 +14,6 @@
 
 function isPrivacyOK(vidp) {
 let isok = false;
-	console.log('vidp : ' + vidp);
 	if (document.getElementById("cb_public").checked && vidp == "anybody") {
 		isok = true;
 	}
@@ -36,7 +35,10 @@ function doSearch () {
 	var f = document.getElementById("orderby");
 	var orderby = f.options[f.selectedIndex].value;
 	var Table = document.getElementById("mytable");
-	//Table.innerHTML = "";
+
+	document.getElementById('div_loading').style.display = 'block';
+	document.getElementById('div_results').style.display = 'none';
+
 
 	var settings = {
 	  "async": true,
@@ -53,12 +55,9 @@ function doSearch () {
 
 	$.ajax(settings).done(function (response) {
 
-	  //console.log(response.data);
-
 		var newTable = "<tr><td>Status</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Plays</td><td>Title</td></tr>";
 	let mycount = 0;
 	for (let video of response.data.videos) {
-		//console.log(video.description.toString().toUpperCase());
 		if (	(search == '' 
 			|| video.name.toUpperCase().search(search.toUpperCase()) !== -1
 			|| (document.getElementById('search_in_desc').checked
@@ -74,12 +73,15 @@ function doSearch () {
 	}
 		document.getElementById("count").value = mycount;
 		Table.innerHTML = newTable;
+	document.getElementById('div_loading').style.display = 'none';
+	document.getElementById('div_results').style.display = 'block';
 	});
 }
 </script>
 	
 	</HEAD>
 	<BODY>
+		<div id="div_search">
 		Search : <label><input type="text" name="search" id="search" value="" />&nbsp;&nbsp;Search in description</label> <input type="checkbox" id="search_in_desc" name="search_in_desc" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" /> <br />
 Order By : 
 <select id="orderby">
@@ -96,9 +98,16 @@ Order By :
 </select>
 Limit : <input type="text" name="limit" id="limit" value="42000" /> 
 <br />Privacy filter : <label><input type="checkbox" name="cb_public" id="cb_public" checked />Public</label><label><input type="checkbox" name="cb_private" id="cb_private" checked />Private</label> 
-<br />Count : <input type="text" disabled id="count" name="count" value="" /><br /><br />
+<br />
+		</div>
+		<div id="div_results">
+Count : <input type="text" disabled id="count" name="count" value="" /><br /><br />
 
 <table id="mytable"><tr><td>Status</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Plays</td><td>Title</td></tr></table>
+		</div>
+		<div id="div_loading">
+			<img src="loading.gif" />
+		</div>
 	<script>
 		doSearch();
 
