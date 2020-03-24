@@ -100,6 +100,9 @@ function doSearch () {
 	let mycount = 0;
 
 	for (let video of response.data.videos) {
+		if (video.description == null) {
+			video.description = "";
+		}
 		if (searchWord(search, video.name + ((document.getElementById('search_in_desc').checked) ? video.description.toString() : "" )) && isPrivacyOK(video.view))
 		{
 			newTable += "<tr><td>" + video.view + "</td><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td><a target=\"_blank\" href=\"" + video.link + "\">GO</a></td><td>" + video.plays + "</td><td>" + video.name + "</td></tr>";
