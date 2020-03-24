@@ -33,6 +33,36 @@ let isok = false;
 	return isok;
 }
 
+/*		if (	(search == '' 
+			|| video.name.toUpperCase().search(search.toUpperCase()) !== -1
+			|| (document.getElementById('search_in_desc').checked
+				&& video.description != null
+				&& video.description.toString().toUpperCase().search(search.toUpperCase()) !== -1)
+		) &&	(isPrivacyOK(video.view))	
+		 )*/
+
+function wclean(word) {
+	let rt = word.toUpperCase(); 
+
+	return rt;
+}
+
+function searchWord(word, sentance) {
+	if (word == '') {
+		return true;
+	}
+
+	let words = word.split(' ');
+	let ts = wclean(sentance);
+
+	for (w of words) {
+		if (ts.search(wclean(w)) == -1) {
+			return false;
+		}
+	}
+	return true;
+}
+
 function doSearch () {
 	var qlimit = document.getElementById('limit').value;
 	var search = document.getElementById('search').value;
@@ -61,24 +91,20 @@ function doSearch () {
 
 	$.ajax(settings).done(function (response) {
 
-		var newTable = "<tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr>";
+	let newTable = "<tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr>";
 	let mycount = 0;
+
 	for (let video of response.data.videos) {
-		if (	(search == '' 
-			|| video.name.toUpperCase().search(search.toUpperCase()) !== -1
-			|| (document.getElementById('search_in_desc').checked
-				&& video.description != null
-				&& video.description.toString().toUpperCase().search(search.toUpperCase()) !== -1)
-		) &&	(isPrivacyOK(video.view))	
-		 )
+		if (searchWord(search, video.name + ((document.getElementById('search_in_desc').checked) ? video.description.toString() : "" )) && isPrivacyOK(video.view))
 		{
 			newTable += "<tr><td>" + video.view + "</td><td>" + video.id + "</td><td>" + video.release_time + "</td><td>" + video.duration + "</td><td><a target=\"_blank\" href=\"" + video.link + "\">GO</a></td><td>" + video.plays + "</td><td>" + video.name + "</td></tr>";
 
-		mycount++;
+			mycount++;
 		}
 	}
-		document.getElementById("count").value = mycount;
-		Table.innerHTML = newTable;
+
+	document.getElementById("count").value = mycount;
+	Table.innerHTML = newTable;
 	document.getElementById('div_loading').style.display = 'none';
 	document.getElementById('div_results').style.display = 'block';
 	});
