@@ -44,6 +44,11 @@ let isok = false;
 function wclean(word) {
 	let rt = word.toUpperCase(); 
 
+	if (rt.normalize != undefined) {
+		rt = rt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+	} else {
+		console.log("ERROR NORMALIZING");
+	}
 	return rt;
 }
 
