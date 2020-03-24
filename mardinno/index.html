@@ -4,7 +4,10 @@
 	
 <style>
 	tr:hover {
-		  background-color: lightyellow;
+		background-color: lightyellow;
+	}
+	td {
+		padding: 4;
 	}
 
 </style>
@@ -101,8 +104,8 @@ function doSearch () {
 		}
 	}
 
-	document.getElementById("count").innerHTML = mycount;
-	Table.innerHTML = newTable;
+	document.getElementById("count").innerHTML = mycount + " video" + (mycount > 0 ? "s" : "") + " found.";
+	Table.innerHTML = (mycount > 0 ? newTable : "");
 	document.getElementById('div_loading').style.display = 'none';
 	document.getElementById('div_results').style.display = 'block';
 	});
@@ -114,12 +117,12 @@ function doSearch () {
 <div id="div_search">
 Order By : 
 <select id="orderby">
-  <option value="created_time">Created time</option>
+  <option value="created_time">Release date</option>
   <option value="duration">Duration</option>
   <option value="id">ID</option>
   <option value="name">Title</option>
   <option value="plays">Nb of Plays</option>
-  <option value="view">Privacy</option>
+  <option value="view">Visibility</option>
 </select>
 <select id="sort">
   <option value="desc">Desc</option>
@@ -131,7 +134,7 @@ Limit : <input type="text" name="limit" id="limit" value="42000" />
 		Search : <label><input type="text" name="search" id="search" value="" />&nbsp;&nbsp;Search in description</label> <input type="checkbox" id="search_in_desc" name="search_in_desc" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" /> <br />
 		</div>
 		<div id="div_results">
-			<br />&nbsp;<span id="count"></span> videos found.<br /><br />
+			<br />&nbsp;<span id="count"></span><br /><br />
 
 <table id="mytable"></table>
 		</div>
