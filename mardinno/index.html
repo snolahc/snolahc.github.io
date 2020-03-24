@@ -61,7 +61,7 @@ function doSearch () {
 
 	$.ajax(settings).done(function (response) {
 
-		var newTable = "<tr><td>Status</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Plays</td><td>Title</td></tr>";
+		var newTable = "<tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr>";
 	let mycount = 0;
 	for (let video of response.data.videos) {
 		if (	(search == '' 
@@ -88,7 +88,6 @@ function doSearch () {
 	</HEAD>
 	<BODY>
 		<div id="div_search">
-		Search : <label><input type="text" name="search" id="search" value="" />&nbsp;&nbsp;Search in description</label> <input type="checkbox" id="search_in_desc" name="search_in_desc" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" /> <br />
 Order By : 
 <select id="orderby">
   <option value="created_time">Created time</option>
@@ -105,11 +104,12 @@ Order By :
 Limit : <input type="text" name="limit" id="limit" value="42000" /> 
 <br />Privacy filter : <label><input type="checkbox" name="cb_public" id="cb_public" checked />Public</label><label><input type="checkbox" name="cb_private" id="cb_private" checked />Private</label> 
 <br />
+		Search : <label><input type="text" name="search" id="search" value="" />&nbsp;&nbsp;Search in description</label> <input type="checkbox" id="search_in_desc" name="search_in_desc" /> <input id="searchbtn" type="button" value="Search" onclick="doSearch();" /> <br />
 		</div>
 		<div id="div_results">
-Count : <input type="text" disabled id="count" name="count" value="" /><br /><br />
+			<br /><br />Count : <input type="text" disabled id="count" name="count" value="" /><br />
 
-<table id="mytable"><tr><td>Status</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Plays</td><td>Title</td></tr></table>
+<table id="mytable"><tr><td>Visibility</td><td>ID</td><td>Release date</td><td>Duration</td><td>Link</td><td>Nb of Plays</td><td>Title</td></tr></table>
 		</div>
 		<div id="div_loading">
 			<img src="loading.gif" />
