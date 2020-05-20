@@ -1,0 +1,61 @@
+body {
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 0px;
+}
+#header {
+ height: 50px;
+ width: 100%;
+ color: white;
+ background-color: black;
+}
+#selector {
+ height: 100px;
+ width: 100%;
+}
+#map {
+ width: 100%;
+ position: absolute;
+ top: 150px;
+ bottom: 0;
+}
+table, th, td {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+input[type=text]{
+    width: 100%;
+    padding: 8px 8px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 24px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.btn-goto {
+    background-color: #4286f4; /* blue */
+}
+.btn-myloc {
+    border: 1px solid #4286f4;
+    color: #4286f4;
+    background-color: white; /* blue */
+    background: url('../img/mylocation-button.png') left center no-repeat;
+    background-size: 20px 20px;
+    background-position-x: 2px;
+}
+.btn-when {
+    background-color: #4286f4; /* blue */
+}
