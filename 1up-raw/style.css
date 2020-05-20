@@ -1,0 +1,93 @@
+body {
+	background-color: #212121;
+	color: rgba(255,255,255,.5);
+}
+
+a {
+	color: white;
+}
+
+a:hover {
+	color: #ff005b;
+}
+
+a:visited {
+	color: white;
+}
+
+neon {
+	color: #ff005b;
+	text-shadow: 0 0 20px #ff005b;
+}
+
+neon::after {
+	filter: blur(15px);
+	content: attr("data-text");
+	color: #ff005b;
+}
+
+.jumbotron {
+	margin-bottom: 0px;
+	
+	background: rgb(7,0,119);
+	background: linear-gradient(90deg, rgba(7,0,119,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+
+	border-bottom-left-radius:0px;
+	border-bottom-right-radius:0px;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+
+	text-align: center;
+	color: white;
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("./img/bg-cafe.jpg");
+  background-color:rgba(0, 0, 0, 0.5);
+  opacity: .5;
+
+  /* Set a specific height */
+  height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.bobox {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.cafe {
+  background-image: url("./img/bg-cafe.jpg");
+}
+.gaming {
+  background-image: url("./img/bg-gaming.jpg");
+}
+.esports {
+  background-image: url("./img/bg-esports.jpg");
+}
+.calendar {
+  background-image: url("./img/bg-calendar.jpg");
+}
+
+.page-footer {
+	background-color: #2E2E2E;
+	color: rgba(255,255,255,.5);
+}
+
+.footer-copyright {
+	background-color: #212121;
+	color: rgba(255,255,255,.5);
+}
+
+.footer-socialicons {
+	width: 1.5em;
+	height: 1.5em;
+	fill: green;
+}
